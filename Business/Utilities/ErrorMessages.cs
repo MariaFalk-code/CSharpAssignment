@@ -22,8 +22,15 @@ public static class ErrorMessages
     public const string ContactNotAdded = "Failed to add contact.";
     public const string ContactNotUpdated = "Failed to update contact.";
     public const string ContactNotDeleted = "Failed to delete contact.";
-    public const string ContactsNotRetrieved = "Failed to retrieve contacts.";
+    public const string ContactsNotRetrieved = "The contact list is empty.";
+
+    //Error messages concerning file handling.
+    public const string FileNotSaved = "Failed to save file.";
+    public const string FileNotFound = "This path does not return a file.";
+    public const string FileInvalid = "The content of file is invalid.";
+    public const string FileNotRead = "Failed to read file.";
 
     //Error messages concerning ArgumentExceptions.
     public const string NullFormException = "The form cannot be null.";
+    public const string NullListException = "The list cannot be null.";
 }

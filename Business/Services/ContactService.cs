@@ -9,7 +9,7 @@ namespace Business.Services;
 
 public class ContactService : IContactService
 {
-    private readonly List<ContactDto> _contacts = new();
+    private List<ContactDto> _contacts = new();
 
     public Result<ContactDto> AddContact(ContactDto contact)
     {
@@ -30,7 +30,7 @@ public class ContactService : IContactService
             var existingContact = _contacts.FirstOrDefault(c => c.Id == contact.Id);
             if (existingContact == null)
             {
-                return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
+                throw new ArgumentException(ErrorMessages.ContactNotFound);
             }
 
             // Update properties
@@ -57,11 +57,11 @@ public class ContactService : IContactService
             var contactToDelete = _contacts.FirstOrDefault(c => c.Id == contact.Id);
             if (contactToDelete == null)
             {
-                return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
+                throw new ArgumentException(ErrorMessages.ContactNotFound);
             }
 
             _contacts.Remove(contactToDelete);
-            return Result<ContactDto>.EmptySuccess(SuccessMessages.ContactDeleted);
+            return Result<ContactDto>.Success(contactToDelete, SuccessMessages.ContactDeleted);
         }
         catch (Exception ex)
         {
@@ -75,7 +75,7 @@ public class ContactService : IContactService
             var contactToRetrieve = _contacts.FirstOrDefault(c => c.Id == contact.Id);
             if (contactToRetrieve == null)
             {
-                return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
+                throw new ArgumentException(ErrorMessages.ContactNotFound);
             }
             return Result<ContactDto>.Success(contactToRetrieve, SuccessMessages.ContactRetrieved);
         }
@@ -84,15 +84,13 @@ public class ContactService : IContactService
             return Result<ContactDto>.Failure($"{ErrorMessages.ContactNotFound}: {ex.Message}");
         }
     }
-    public Result<List<ContactDto>> GetAllContacts()
+    public Result<IEnumerable<ContactDto>> GetAllContacts()
     {
-        try
-        {
-            return Result<List<ContactDto>>.Success(_contacts, SuccessMessages.ContactsRetrieved);
-        }
-        catch (Exception ex)
-        {
-            return Result<List<ContactDto>>.Failure($"{ErrorMessages.ContactsNotRetrieved}: {ex.Message}");
-        }
+        if (_contacts.Count == 0)
+            {
+            return Result<IEnumerable<ContactDto>>.Failure(ErrorMessages.ContactsNotRetrieved);
+            }
+
+        return Result<IEnumerable<ContactDto>>.Success(_contacts, SuccessMessages.ContactsRetrieved);
     }
 }

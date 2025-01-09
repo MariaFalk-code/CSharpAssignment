@@ -54,5 +54,5 @@ public interface IContactService
     /// A <see cref="Result{T}"/> containing a list of <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message.
     /// </returns>
-    Result<List<ContactDto>> GetAllContacts();
+    Result<IEnumerable<ContactDto>> GetAllContacts();
 }
