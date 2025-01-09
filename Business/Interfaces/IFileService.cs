@@ -1,5 +1,7 @@
 ﻿
 
+using Business.Models;
+
 namespace Business.Interfaces;
 
 public interface IFileService
@@ -9,15 +11,20 @@ public interface IFileService
     /// </summary>
     /// <typeparam name="T">Represents the type of listed objects.</typeparam>
     /// <param name="list">The list to save</param>
-    
-    void SaveListToFile<T>(List<T> list);
+    /// <returns>
+    /// A <see cref="Result{T}"/> message, indicating whether the operation was successful or not.
+    /// </returns>
+    Result<string> SaveListToFile<T>(List<T> list);
 
     /// <summary>
     /// Reads a list of objects from a file.
     /// </summary>
     /// <typeparam name="T">The type of objects to read from the file.</typeparam>
     /// <param name="filePath">The filepath to read from</param>
-    /// <returns>A list of objects read from the file></returns>
+    /// <returns>
+    /// A <see cref="Result{T}"/> containing a list of objects if successful.
+    /// If unsuccessful, the result contains an error message.
+    /// </returns>
 
-    List<T> ReadListFromFile<T>(string filePath);
+    Result<List<T>> ReadListFromFile<T>(string filePath);
 }
