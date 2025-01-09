@@ -24,8 +24,16 @@ public class ContactFactory
     /// </summary>
     /// <param name="form">The form containing contact information to populate the DTO.</param>
     /// <returns>A new <see cref="ContactDto"/> populated with the contact details from the form.</returns>
+    /// /// <exception cref="ArgumentNullException">
+    /// Thrown if the provided <see cref="ContactRegistrationForm"/> is null.
+    /// </exception>
     public static ContactDto Create(ContactRegistrationForm form)
     {
+        if (form == null)
+        {
+            throw new ArgumentNullException(nameof(form), ErrorMessages.NullFormException);
+        }
+
         return new ContactDto
         {
             Id = GuidGenerator.GenerateGuid(),
