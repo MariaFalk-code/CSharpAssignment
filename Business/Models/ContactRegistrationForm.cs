@@ -1,17 +1,45 @@
 ﻿
+using Business.Utilities;
+using System.ComponentModel.DataAnnotations;
+
+namespace Business.Models;
+
+/// <summary>
+/// Represents the contact registration form with validation logic.
+/// </summary>
 
 
-
-namespace Business.Models
+public class ContactRegistrationForm
 {
-    public class ContactRegistrationForm
-    {
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string PhoneNumber { get; set; } = null!;
-        public string StreetAddress { get; set; } = null!;
-        public string City { get; set; } = null!;
-        public string PostalCode { get; set; } = null!;
-    }
+    [Required(ErrorMessage = ErrorMessages.Required)]
+    [RegularExpression(@"^[a-zA-Z\s\-]+$", ErrorMessage = ErrorMessages.NameField)]
+    public string FirstName { get; set; } = null!;
+
+    [Required(ErrorMessage = ErrorMessages.Required)]
+    [RegularExpression(@"^[a-zA-Z\s\-]+$", ErrorMessage = ErrorMessages.NameField)]
+    public string LastName { get; set; } = null!;
+
+    [Required(ErrorMessage = ErrorMessages.Required)]
+    [EmailAddress(ErrorMessage =ErrorMessages.InvalidEmail)]
+    public string Email { get; set; } = null!;
+
+    [Required(ErrorMessage = ErrorMessages.Required)]
+    [RegularExpression(@"^\d+$", ErrorMessage = ErrorMessages.OnlyNumbers)]
+    public string PhoneNumber { get; set; } = null!;
+
+    [Required(ErrorMessage = ErrorMessages.Required)]
+    [RegularExpression(@"^[a-zA-ZåäöÅÄÖ\s]+$", ErrorMessage = ErrorMessages.Adress)]
+    public string StreetAddress { get; set; } = null!;
+
+    [Required(ErrorMessage = ErrorMessages.Required)]
+    [RegularExpression(@"^[a-zA-ZåäöÅÄÖ0-9]+$", ErrorMessage = ErrorMessages.StreetNumber)]
+    public string StreetNumber { get; set; } = null!;
+
+    [Required(ErrorMessage = ErrorMessages.Required)]
+    [RegularExpression(@"^[a-zA-ZåäöÅÄÖ\s]+$", ErrorMessage = ErrorMessages.Adress)]
+    public string City { get; set; } = null!;
+
+    [Required(ErrorMessage = ErrorMessages.Required)]
+    [RegularExpression(@"^\d+$", ErrorMessage = ErrorMessages.OnlyNumbers)]
+    public string PostalCode { get; set; } = null!;
 }
