@@ -7,8 +7,9 @@ using Business.Utilities;
 
 namespace Business.Services;
 
-public class ContactService : IContactService
+public class ContactService (IFileService fileService): IContactService
 {
+    private readonly IFileService _fileService = fileService;
     private List<ContactDto> _contacts = new();
 
     public Result<ContactDto> AddContact(ContactDto contact)
@@ -16,6 +17,7 @@ public class ContactService : IContactService
         try
         {
             _contacts.Add(contact);
+            _fileService.SaveListToFile(_contacts);
             return Result<ContactDto>.EmptySuccess(SuccessMessages.ContactAdded);
         }
         catch (Exception ex)
@@ -43,6 +45,7 @@ public class ContactService : IContactService
             existingContact.City = contact.City;
             existingContact.PostalCode = contact.PostalCode;
 
+            _fileService.SaveListToFile(_contacts);
             return Result<ContactDto>.Success(existingContact, SuccessMessages.ContactUpdated);
         }
         catch (Exception ex)
