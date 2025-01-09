@@ -16,6 +16,14 @@ public static class ErrorMessages
     public const string InvalidStreetNumber = "This field can only contain numbers and letters. Please enter without spaces";
     public const string InvalidPostalCode = "Please enter five numbers without spaces.";
 
+    //Error messages concerning the contact list.
+    public const string ContactNotFound = "Contact not found.";
+    public const string ContactAlreadyExists = "Contact already exists.";
+    public const string ContactNotAdded = "Failed to add contact.";
+    public const string ContactNotUpdated = "Failed to update contact.";
+    public const string ContactNotDeleted = "Failed to delete contact.";
+    public const string ContactsNotRetrieved = "Failed to retrieve contacts.";
+
     //Error messages concerning ArgumentExceptions.
     public const string NullFormException = "The form cannot be null.";
 }

@@ -30,22 +30,22 @@ public interface IContactService
     /// <summary>
     /// Deletes a contact from the list of contacts.
     /// </summary>
-    /// <param name="id">The id of the contact to delete</param>
+    /// <param name="contact">The contact to delete</param>
     /// <returns>
     /// A <see cref="Result{T}"/> containing the deleted <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message.
     /// </returns>
-    Result<ContactDto> DeleteContact(Guid id);
+    Result<ContactDto> DeleteContact(ContactDto contact);
 
     /// <summary>
-    /// Gets a contact from the list of contacts by ID.
+    /// Gets a contact from the list of contacts.
     /// </summary>
-    /// <param name="id">The id of the contact to retrieve</param>
+    /// <param name="contact">The contact to retrieve</param>
     /// <returns>
     /// A <see cref="Result{T}"/> containing the requested <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message.
     /// </returns>
-    Result<ContactDto> GetContact(Guid id);
+    Result<ContactDto> GetContact(ContactDto contact);
 
     /// <summary>
     /// Gets all contacts from the list of contacts.

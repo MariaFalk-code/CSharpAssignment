@@ -1,16 +1,17 @@
 ﻿
 
 using Business.Interfaces;
+using Business.Models;
 
 namespace Business.Services;
 
 public class FileService : IFileService
 {
-    public void SaveListToFile<T>(List<T> list)
+     public Result<string> SaveListToFile<T>(List<T> list)
     {
         throw new NotImplementedException();
     }
-    public List<T> ReadListFromFile<T>(string filePath)
+    public Result<List<T>> ReadListFromFile<T>(string filePath)
     {
         throw new NotImplementedException();
     }
