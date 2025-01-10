@@ -22,7 +22,7 @@ public class ContactRegistrationForm
     public string Email { get; set; } = null!;
 
     [Required(ErrorMessage = ErrorMessages.Required)]
-    [RegularExpression(@"^(\+46|0)[\d\s\-]{6,}$", ErrorMessage = ErrorMessages.InvalidPhoneNumber)]
+    [RegularExpression(@"^(\+46|0)\d{6,}$", ErrorMessage = ErrorMessages.InvalidPhoneNumber)]
     public string PhoneNumber { get; set; } = null!;
 
     [Required(ErrorMessage = ErrorMessages.Required)]
