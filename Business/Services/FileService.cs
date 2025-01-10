@@ -20,11 +20,6 @@ public class FileService : IFileService
 
     public Result<string> SaveListToFile<T>(List<T> list)
     {
-        if (list == null)
-        {
-            throw new ArgumentNullException(nameof(list), ErrorMessages.NullListException);
-        }
-
         try
         {
             if (!Directory.Exists(_directoryPath))
@@ -35,7 +30,7 @@ public class FileService : IFileService
             var json = JsonSerializer.Serialize(list);
             File.WriteAllText(_filePath, json);
 
-            return Result<string>.EmptySuccess(SuccessMessages.FileSaved);
+            return Result<string>.EmptySuccess();
         }
         catch (Exception ex)
         {
@@ -57,11 +52,11 @@ public class FileService : IFileService
             {
                 return Result<List<T>>.Failure(ErrorMessages.FileInvalid);
             }
-            return Result<List<T>>.Success(list, SuccessMessages.FileRead);
+            return Result<List<T>>.Success(list);
         }
         catch (Exception ex)
         {
-            return Result<List<T>>.Failure($"{ErrorMessages.FileNotRead}: {ex.Message}");
+            return Result<List<T>>.Failure(ex.Message);
         }
     }
 }

@@ -22,7 +22,7 @@ public static class ErrorMessages
     public const string ContactNotAdded = "Failed to add contact.";
     public const string ContactNotUpdated = "Failed to update contact.";
     public const string ContactNotDeleted = "Failed to delete contact.";
-    public const string ContactsNotRetrieved = "The contact list is empty.";
+    public const string ContactsEmpty = "The contact list is empty.";
 
     //Error messages concerning file handling.
     public const string FileNotSaved = "Failed to save file.";
@@ -32,5 +32,5 @@ public static class ErrorMessages
 
     //Error messages concerning ArgumentExceptions.
     public const string NullFormException = "The form cannot be null.";
-    public const string NullListException = "The list cannot be null.";
+    public const string NullContactException = "The contact cannot be null.";
 }

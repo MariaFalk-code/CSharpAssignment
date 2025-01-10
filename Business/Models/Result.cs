@@ -29,6 +29,6 @@ public class Result<T>
     public static Result<T> EmptySuccess(string message = "") =>
         new Result<T> { IsSuccess = true, Message = message };
 
-    public static Result<T> Failure(string message) =>
+    public static Result<T> Failure(string message = "") =>
         new Result<T> { IsSuccess = false, Message = message };
 }
