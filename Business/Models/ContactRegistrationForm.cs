@@ -1,5 +1,5 @@
 ﻿
-using Business.Utilities;
+using Business.Messages;
 using System.ComponentModel.DataAnnotations;
 
 namespace Business.Models;

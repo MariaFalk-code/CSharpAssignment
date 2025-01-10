@@ -1,5 +1,4 @@
-﻿
-namespace Business.Utilities;
+﻿namespace Business.Messages;
 
 /// <summary>
 /// Errormessages concerning the Contact List application.

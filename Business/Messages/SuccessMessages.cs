@@ -1,6 +1,4 @@
-﻿
-
-namespace Business.Utilities
+﻿namespace Business.Messages
 {
     public static class SuccessMessages
     {
