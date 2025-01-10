@@ -6,6 +6,9 @@
 
 public static class ErrorMessages
 {
+    //Error messages concering MenuDialogs.
+    public const string InvalidOption = "Invalid option. Press any key and try again.";
+
     //Error messages concerning validation of the contact registration form.
     public const string Required = "This field is required.";
     public const string InvalidName = "This field can only contain letters, spaces and hyphens. (For example: \"Anders\", \"Anna-Karin\".)";

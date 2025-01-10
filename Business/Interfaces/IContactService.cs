@@ -45,7 +45,7 @@ public interface IContactService
     /// A <see cref="Result{T}"/> containing the requested <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message.
     /// </returns>
-    Result<ContactDto> GetContact(ContactDto contact);
+    Result<ContactDto> ShowContact(ContactDto contact);
 
     /// <summary>
     /// Gets all contacts from the list of contacts.
@@ -54,5 +54,5 @@ public interface IContactService
     /// A <see cref="Result{T}"/> containing a list of <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message.
     /// </returns>
-    Result<IEnumerable<ContactDto>> GetAllContacts();
+    Result<IEnumerable<ContactDto>> ShowAllContacts();
 }

@@ -88,7 +88,7 @@ public class ContactService : IContactService
 
         return Result<ContactDto>.Success(contactToDelete, SuccessMessages.ContactDeleted);
     }
-    public Result<ContactDto> GetContact(ContactDto contact)
+    public Result<ContactDto> ShowContact(ContactDto contact)
     {
         var contactToRetrieve = _contacts.FirstOrDefault(c => c.Id == contact.Id);
         if (contactToRetrieve == null)
@@ -97,7 +97,7 @@ public class ContactService : IContactService
         }
         return Result<ContactDto>.Success(contactToRetrieve, SuccessMessages.ContactRetrieved);
     }
-    public Result<IEnumerable<ContactDto>> GetAllContacts()
+    public Result<IEnumerable<ContactDto>> ShowAllContacts()
     {
         if (_contacts.Count == 0)
         {
