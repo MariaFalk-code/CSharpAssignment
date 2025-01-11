@@ -39,9 +39,9 @@ public class MenuDialogs(IContactService contactService)
         Console.WriteLine("Please select an option by entering the corresponding number:");
         Console.WriteLine("---------------------------------");
         Console.WriteLine("1. Add a contact");
-        Console.WriteLine("2. Update a contact");
-        Console.WriteLine("3. Delete a contact");
-        Console.WriteLine("4. View a contact");
+        Console.WriteLine("2. View a contact by id");
+        Console.WriteLine("3. Update a contact");
+        Console.WriteLine("4. Delete a contact");
         Console.WriteLine("5. View all contacts");
         Console.WriteLine("6. Exit App");
         Console.WriteLine("---------------------------------");
