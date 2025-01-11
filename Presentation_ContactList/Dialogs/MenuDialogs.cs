@@ -12,7 +12,7 @@ public class MenuDialogs(IContactService contactService)
 {
     private readonly IContactService _contactService = contactService;
 
-    public void RunMainMeny()
+    public void RunMainMenu()
     {
         var validOptions = new HashSet<string> { "1", "2", "3", "4", "5", "6" };
 

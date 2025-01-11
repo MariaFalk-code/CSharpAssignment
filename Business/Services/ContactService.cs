@@ -21,7 +21,7 @@ public class ContactService : IContactService
     public ContactService(IFileService fileService, string filePath)
     {
         _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-        _filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+        _filePath = "contacts.json";
 
         var readResult = _fileService.ReadListFromFile<ContactDto>(_filePath);
         _contacts = readResult.Data ?? [];
@@ -70,7 +70,7 @@ public class ContactService : IContactService
 
         return Result<ContactDto>.Success(existingContact, SuccessMessages.ContactUpdated);
     }
-    public Result<ContactDto> DeleteContact(string ontactId)
+    public Result<ContactDto> DeleteContact(string contactId)
     {
 
         var contactToDelete = _contacts.FirstOrDefault(c => c.Id == contactId);

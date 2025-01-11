@@ -12,7 +12,7 @@ public class FileService : IFileService
     private readonly string _directoryPath;
     private readonly string _filePath;
 
-    public FileService(string directoryPath = "Data", string fileName = "list.json")
+    public FileService(string directoryPath = "Data", string fileName = "contacts.json")
     {
         _directoryPath = directoryPath;
         _filePath = Path.Combine(_directoryPath, fileName);
