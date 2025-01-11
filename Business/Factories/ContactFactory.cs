@@ -15,7 +15,7 @@ public class ContactFactory
     /// <summary>
     /// Creates a new instance of <see cref="ContactRegistrationForm"/>
     /// </summary>
-    public static ContactRegistrationForm CreateContactRegistrationForm()
+    public static ContactRegistrationForm CreateRegistrationForm()
     {
         return new ContactRegistrationForm();
     }
@@ -35,6 +35,8 @@ public class ContactFactory
             throw new ArgumentNullException(nameof(form), ErrorMessages.NullFormException);
         }
 
+        InputSanitizer.Sanitize(form);
+
         return new ContactDto
         {
             Id = GuidGenerator.GenerateGuid(),
@@ -47,5 +49,35 @@ public class ContactFactory
             City = form.City,
             PostalCode = form.PostalCode
         };
+    }
+    /// <summary>
+    /// Updates an existing <see cref="ContactDto"/> with values from a <see cref="ContactRegistrationForm"/>.
+    /// </summary>
+    /// <param name="dto">The existing contact DTO to update.</param>
+    /// <param name="form">The form containing the updated values.</param>
+    /// <returns>The updated <see cref="ContactDto"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the DTO or form is null.</exception>
+    public static ContactDto Update(ContactDto dto, ContactRegistrationForm form)
+    {
+        if (dto == null)
+        {
+            throw new ArgumentNullException(nameof(dto), ErrorMessages.NullDtoException);
+        }
+        if (form == null)
+        {
+            throw new ArgumentNullException(nameof(form), ErrorMessages.NullFormException);
+        }
+
+        InputSanitizer.Sanitize(form);
+
+        dto.FirstName = form.FirstName;
+        dto.LastName = form.LastName;
+        dto.Email = form.Email;
+        dto.PhoneNumber = form.PhoneNumber;
+        dto.StreetAddress = form.StreetAddress;
+        dto.StreetNumber = form.StreetNumber;
+        dto.City = form.City;
+        dto.PostalCode = form.PostalCode;
+        return dto;
     }
 }

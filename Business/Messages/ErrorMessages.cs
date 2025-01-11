@@ -8,6 +8,7 @@ public static class ErrorMessages
 {
     //Error messages concering MenuDialogs.
     public const string InvalidOption = "Invalid option. Press any key and try again.";
+    public const string InvalidId = "Invalid contact ID. Press any key and try again.";
 
     //Error messages concerning validation of the contact registration form.
     public const string Required = "This field is required.";
@@ -35,4 +36,5 @@ public static class ErrorMessages
     //Error messages concerning ArgumentExceptions.
     public const string NullFormException = "The form cannot be null.";
     public const string NullContactException = "The contact cannot be null.";
+    public const string NullDtoException = "The DTO cannot be null.";
 }

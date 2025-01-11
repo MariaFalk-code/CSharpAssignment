@@ -1,6 +1,7 @@
 ﻿
 
 using Business.Dtos;
+using Business.Factories;
 using Business.Interfaces;
 using Business.Messages;
 using Business.Models;
@@ -23,12 +24,11 @@ public class ContactService : IContactService
         _filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
 
         var readResult = _fileService.ReadListFromFile<ContactDto>(_filePath);
-        _contacts = readResult.Data ?? new List<ContactDto>();
+        _contacts = readResult.Data ?? [];
     }
 
     public Result<ContactDto> AddContact(ContactDto contact)
     {
-
         if (contact == null)
         {
             return Result<ContactDto>.Failure(ErrorMessages.ContactNotAdded);
@@ -43,23 +43,24 @@ public class ContactService : IContactService
 
         return Result<ContactDto>.EmptySuccess(SuccessMessages.ContactAdded);
     }
-    public Result<ContactDto> UpdateContact(ContactDto contact)
+    public Result<ContactDto> ShowContact(string contactId)
     {
-        var existingContact = _contacts.FirstOrDefault(c => c.Id == contact.Id);
+        var contactToRetrieve = _contacts.FirstOrDefault(c => c.Id == contactId);
+        if (contactToRetrieve == null)
+        {
+            return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
+        }
+        return Result<ContactDto>.Success(contactToRetrieve, SuccessMessages.ContactRetrieved);
+    }
+    public Result<ContactDto> UpdateContact(string contactId, ContactRegistrationForm form)
+    {
+        var existingContact = _contacts.FirstOrDefault(c => c.Id == contactId);
         if (existingContact == null)
         {
             return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
         }
 
-        // Update properties
-        existingContact.FirstName = contact.FirstName;
-        existingContact.LastName = contact.LastName;
-        existingContact.Email = contact.Email;
-        existingContact.PhoneNumber = contact.PhoneNumber;
-        existingContact.StreetAddress = contact.StreetAddress;
-        existingContact.StreetNumber = contact.StreetNumber;
-        existingContact.City = contact.City;
-        existingContact.PostalCode = contact.PostalCode;
+        ContactFactory.Update(existingContact, form);
 
         var saveResult = _fileService.SaveListToFile(_contacts);
         if (!saveResult.IsSuccess)
@@ -69,10 +70,10 @@ public class ContactService : IContactService
 
         return Result<ContactDto>.Success(existingContact, SuccessMessages.ContactUpdated);
     }
-    public Result<ContactDto> DeleteContact(ContactDto contact)
+    public Result<ContactDto> DeleteContact(string ontactId)
     {
 
-        var contactToDelete = _contacts.FirstOrDefault(c => c.Id == contact.Id);
+        var contactToDelete = _contacts.FirstOrDefault(c => c.Id == contactId);
         if (contactToDelete == null)
         {
             return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
@@ -87,15 +88,6 @@ public class ContactService : IContactService
         }
 
         return Result<ContactDto>.Success(contactToDelete, SuccessMessages.ContactDeleted);
-    }
-    public Result<ContactDto> ShowContact(ContactDto contact)
-    {
-        var contactToRetrieve = _contacts.FirstOrDefault(c => c.Id == contact.Id);
-        if (contactToRetrieve == null)
-        {
-            return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
-        }
-        return Result<ContactDto>.Success(contactToRetrieve, SuccessMessages.ContactRetrieved);
     }
     public Result<IEnumerable<ContactDto>> ShowAllContacts()
     {
