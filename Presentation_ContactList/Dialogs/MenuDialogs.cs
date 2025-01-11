@@ -1,7 +1,6 @@
 ﻿
 
 
-using Business.Factories;
 using Business.Interfaces;
 using Business.Messages;
 using Business.Models;
@@ -24,7 +23,7 @@ public class MenuDialogs(IContactService contactService)
 
             if (!string.IsNullOrEmpty(option) && validOptions.Contains(option))
             {
-                MenuOptionSelector(option);
+                HandleMenuOption(option);
             }
             else
             {
@@ -53,7 +52,7 @@ public class MenuDialogs(IContactService contactService)
         return option;
     }
 
-    private void MenuOptionSelector(string option)
+    private void HandleMenuOption(string option)
     {
         switch (option)
         {
