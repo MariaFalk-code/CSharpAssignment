@@ -5,6 +5,7 @@ using Business.Factories;
 using Business.Interfaces;
 using Business.Messages;
 using Business.Utilities;
+using System;
 
 namespace Presentation_ContactList_ConsoleApp.Dialogs;
 
@@ -28,6 +29,8 @@ public class MenuDialogs(IContactService contactService)
             else
             {
                 Console.WriteLine(ErrorMessages.InvalidOption);
+                Console.WriteLine();
+                Console.WriteLine("Press any key to return to the main menu.");
                 Console.ReadKey();
             }
         }
@@ -77,7 +80,6 @@ public class MenuDialogs(IContactService contactService)
                 break;
         }
     }
-
     private void AddContact()
     {
         Console.Clear();
@@ -95,9 +97,17 @@ public class MenuDialogs(IContactService contactService)
 
         var contactDto = ContactFactory.Create(contactRegForm);
         var result = _contactService.AddContact(contactDto);
-        Console.WriteLine(result.Message);
-    }
 
+        Console.Clear();
+        Console.WriteLine(result.Message);
+        Console.WriteLine();
+        Console.WriteLine("---New contact:---");
+        Console.WriteLine();
+        PrintContactDetails.Print(result.Data!);
+        Console.WriteLine();
+        Console.WriteLine("Press any key to return to the main menu.");
+        Console.ReadKey();
+    }
     private void ViewContact()
     {
         Console.Clear();
@@ -106,17 +116,29 @@ public class MenuDialogs(IContactService contactService)
         if (string.IsNullOrWhiteSpace(contactId))
         {
             Console.WriteLine(ErrorMessages.InvalidId);
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return to the main menu.");
             Console.ReadKey();
             return;
         }
-        var contactDto = _contactService.ShowContact(contactId);
-        if (contactDto == null)
+        var result = _contactService.ShowContact(contactId);
+        Console.Clear();
+
+        if (!result.IsSuccess || result.Data == null)
         {
             Console.WriteLine(ErrorMessages.ContactNotFound);
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return to the main menu.");
             Console.ReadKey();
             return;
         }
-        Console.WriteLine(contactDto);
+
+        Console.WriteLine(result.Message);
+        Console.WriteLine();
+        Console.WriteLine("---Contact Details---");
+        Console.WriteLine();
+        PrintContactDetails.Print(result.Data!);
+        Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
 
@@ -130,14 +152,18 @@ public class MenuDialogs(IContactService contactService)
         if (string.IsNullOrWhiteSpace(contactId))
         {
             Console.WriteLine(ErrorMessages.InvalidId);
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return to the main menu.");
             Console.ReadKey();
             return;
         }
 
         var contactDto = _contactService.ShowContact(contactId);
-        if (contactDto == null)
+        if (!contactDto.IsSuccess || contactDto.Data == null)
         {
             Console.WriteLine(ErrorMessages.ContactNotFound);
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return to the main menu.");
             Console.ReadKey();
             return;
         }
@@ -156,8 +182,23 @@ public class MenuDialogs(IContactService contactService)
         contactRegForm.City = PromptAndValidate.Prompt("City: ", contactRegForm, nameof(contactRegForm.City));
 
         var result = _contactService.UpdateContact(contactId, contactRegForm);
+        Console.Clear();
 
-        Console.WriteLine(result.IsSuccess ? $"Success: {result.Message}" : $"Error: {result.Message}");
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine(result.Message);
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return to the main menu.");
+            Console.ReadKey();
+            return;
+        }
+        
+        Console.WriteLine(result.Message);
+        Console.WriteLine();
+        Console.WriteLine("---Updated contact:---");
+        Console.WriteLine();
+        PrintContactDetails.Print(result.Data!);
+        Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
     private void DeleteContact()
@@ -175,15 +216,29 @@ public class MenuDialogs(IContactService contactService)
         }
 
         var contactDto = _contactService.ShowContact(contactId);
-        if (contactDto == null)
+        if (!contactDto.IsSuccess || contactDto.Data == null)
         {
             Console.WriteLine(ErrorMessages.ContactNotFound);
             Console.ReadKey();
             return;
         }
         var result = _contactService.DeleteContact(contactId);
+        Console.Clear();
 
-        Console.WriteLine(result.IsSuccess ? $"Success: {result.Message}" : $"Error: {result.Message}");
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine(result.Message);
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return to the main menu.");
+            Console.ReadKey();
+            return;
+        }
+        Console.WriteLine(result.Message);
+        Console.WriteLine();
+        Console.WriteLine("---Deleted contact:---");
+        Console.WriteLine();
+        PrintContactDetails.Print(result.Data!);
+        Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
     /// <summary>
@@ -198,16 +253,23 @@ public class MenuDialogs(IContactService contactService)
         if (!result.IsSuccess || result.Data == null || !result.Data.Any())
         {
             Console.WriteLine(result.Message ?? ErrorMessages.ContactsEmpty);
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return to the main menu.");
             Console.ReadKey();
             return;
         }
 
+        Console.WriteLine(result.Message);
+        Console.WriteLine();
+        Console.WriteLine("---All contacts:---");
+        Console.WriteLine();
         foreach (var contact in result.Data)
         {
-            Console.WriteLine(contact);
+            {
+                PrintContactDetails.Print(contact);
+            }
         }
-
+        Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
-
 }

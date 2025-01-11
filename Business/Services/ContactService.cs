@@ -39,7 +39,7 @@ public class ContactService : IContactService
             return Result<ContactDto>.Failure(ErrorMessages.ContactNotAdded);
         }
 
-        return Result<ContactDto>.EmptySuccess(SuccessMessages.ContactAdded);
+        return Result<ContactDto>.Success(contact, SuccessMessages.ContactAdded);
     }
     public Result<ContactDto> ShowContact(string contactId)
     {
