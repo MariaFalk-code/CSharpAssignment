@@ -12,7 +12,7 @@ public static class InputSanitizer
     /// When applicable, the method also converts the input to title case.
     /// </summary>
     /// <param name="form">The form to sanitize</param>
-    public static void Sanitize(ContactRegistrationForm form)
+    public static ContactRegistrationForm Sanitize(ContactRegistrationForm form)
     {
         form.FirstName = ToTitleCase(RemoveExtraSpaces(form.FirstName));
         form.LastName = ToTitleCase(RemoveExtraSpaces(form.LastName));
@@ -20,7 +20,10 @@ public static class InputSanitizer
         form.PhoneNumber = RemoveExtraSpaces(form.PhoneNumber);
         form.StreetAddress = ToTitleCase(RemoveExtraSpaces(form.StreetAddress));
         form.StreetNumber = RemoveExtraSpaces(form.StreetNumber);
+        form.PostalCode = RemoveExtraSpaces(form.PostalCode);
         form.City = ToTitleCase(RemoveExtraSpaces(form.City));
+
+        return form;
     }
 
     private static string RemoveExtraSpaces(string input)

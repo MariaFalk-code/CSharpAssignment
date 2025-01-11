@@ -5,6 +5,7 @@ using Business.Factories;
 using Business.Interfaces;
 using Business.Messages;
 using Business.Models;
+using Business.Utilities;
 
 namespace Business.Services;
 /// <summary>
@@ -25,8 +26,14 @@ public class ContactService : IContactService
         _contacts = readResult.Data ?? [];
     }
 
-    public Result<ContactDto> AddContact(ContactDto contact)
+    public Result<ContactDto> CreateAndAddContact(ContactRegistrationForm form)
     {
+        if (form == null) return Result<ContactDto>.Failure("Form cannot be null");
+
+        var sanitizedForm = InputSanitizer.Sanitize(form);
+
+        var contact = ContactFactory.Create(sanitizedForm);
+
         if (contact == null)
         {
             return Result<ContactDto>.Failure(ErrorMessages.ContactNotAdded);
@@ -58,7 +65,8 @@ public class ContactService : IContactService
             return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
         }
 
-        ContactFactory.Update(existingContact, form);
+        var sanitizedForm = InputSanitizer.Sanitize(form);
+        ContactFactory.Update(existingContact, sanitizedForm);
 
         var saveResult = _fileService.SaveListToFile(_contacts);
         if (!saveResult.IsSuccess)

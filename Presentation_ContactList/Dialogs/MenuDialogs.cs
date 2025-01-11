@@ -4,8 +4,8 @@
 using Business.Factories;
 using Business.Interfaces;
 using Business.Messages;
+using Business.Models;
 using Business.Utilities;
-using System;
 
 namespace Presentation_ContactList_ConsoleApp.Dialogs;
 
@@ -83,7 +83,7 @@ public class MenuDialogs(IContactService contactService)
     private void AddContact()
     {
         Console.Clear();
-        var contactRegForm = ContactFactory.CreateRegistrationForm();
+        var contactRegForm = new ContactRegistrationForm();
 
         Console.WriteLine("Please enter the following information to register a new contact:");
         contactRegForm.FirstName = PromptAndValidate.Prompt("First Name: ", contactRegForm, nameof(contactRegForm.FirstName));
@@ -95,8 +95,7 @@ public class MenuDialogs(IContactService contactService)
         contactRegForm.PostalCode = PromptAndValidate.Prompt("Postal Code: ", contactRegForm, nameof(contactRegForm.PostalCode));
         contactRegForm.City = PromptAndValidate.Prompt("City: ", contactRegForm, nameof(contactRegForm.City));
 
-        var contactDto = ContactFactory.Create(contactRegForm);
-        var result = _contactService.AddContact(contactDto);
+        var result = _contactService.CreateAndAddContact(contactRegForm);
 
         Console.Clear();
         Console.WriteLine(result.Message);
@@ -169,8 +168,8 @@ public class MenuDialogs(IContactService contactService)
         }
 
         Console.Clear();
-        var contactRegForm = ContactFactory.CreateRegistrationForm();
-       
+        var contactRegForm = new ContactRegistrationForm();
+
         Console.WriteLine("Please enter the updated information for the contact:");
         contactRegForm.FirstName = PromptAndValidate.Prompt("First Name: ", contactRegForm, nameof(contactRegForm.FirstName));
         contactRegForm.LastName = PromptAndValidate.Prompt("Last Name: ", contactRegForm, nameof(contactRegForm.LastName));

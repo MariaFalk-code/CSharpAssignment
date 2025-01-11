@@ -13,14 +13,6 @@ namespace Business.Factories;
 public class ContactFactory
 {
     /// <summary>
-    /// Creates a new instance of <see cref="ContactRegistrationForm"/>
-    /// </summary>
-    public static ContactRegistrationForm CreateRegistrationForm()
-    {
-        return new ContactRegistrationForm();
-    }
-
-    /// <summary>
     /// Creates a new instance of <see cref="ContactDto"/> from a given <see cref="ContactRegistrationForm"/>.
     /// </summary>
     /// <param name="form">The form containing contact information to populate the DTO.</param>
@@ -34,8 +26,6 @@ public class ContactFactory
         {
             throw new ArgumentNullException(nameof(form), ErrorMessages.NullFormException);
         }
-
-        InputSanitizer.Sanitize(form);
 
         return new ContactDto
         {
@@ -67,8 +57,6 @@ public class ContactFactory
         {
             throw new ArgumentNullException(nameof(form), ErrorMessages.NullFormException);
         }
-
-        InputSanitizer.Sanitize(form);
 
         dto.FirstName = form.FirstName;
         dto.LastName = form.LastName;

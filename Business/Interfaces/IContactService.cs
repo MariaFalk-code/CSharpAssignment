@@ -10,12 +10,12 @@ public interface IContactService
     /// <summary>
     /// Adds a contact to the list of contacts.
     /// </summary>
-    /// <param name="contact">The contact to add</param>
+    /// <param name="form">The contact registration form.</param>
     /// <returns>
     /// A <see cref="Result{T}"/> containing the added <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message.
     /// </returns>
-    Result<ContactDto> AddContact(ContactDto contact);
+    Result<ContactDto> CreateAndAddContact(ContactRegistrationForm form);
 
     /// <summary>
     /// Gets a contact from the list of contacts.
