@@ -26,5 +26,5 @@ public interface IFileService
     /// If unsuccessful, the result contains an error message.
     /// </returns>
 
-    Result<List<T>> ReadListFromFile<T>(string filePath);
+    Result<List<T>> ReadListFromFile<T>();
 }

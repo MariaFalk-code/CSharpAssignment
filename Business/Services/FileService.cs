@@ -37,15 +37,15 @@ public class FileService : IFileService
             return Result<string>.Failure($"{ErrorMessages.FileNotSaved}: {ex.Message}");
         }
     }
-    public Result<List<T>> ReadListFromFile<T>(string filePath)
+    public Result<List<T>> ReadListFromFile<T>()
     {
         try
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(_filePath))
             {
                 return Result<List<T>>.Failure(ErrorMessages.FileNotFound);
             }
-            var json = File.ReadAllText(filePath);
+            var json = File.ReadAllText(_filePath);
             var list = JsonSerializer.Deserialize<List<T>>(json);
 
             if (list == null)

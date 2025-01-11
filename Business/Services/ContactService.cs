@@ -15,15 +15,13 @@ namespace Business.Services;
 public class ContactService : IContactService
 {
     private readonly IFileService _fileService;
-    private readonly string _filePath;
     private List<ContactDto> _contacts;
 
-    public ContactService(IFileService fileService, string filePath)
+    public ContactService(IFileService fileService)
     {
         _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-        _filePath = "contacts.json";
 
-        var readResult = _fileService.ReadListFromFile<ContactDto>(_filePath);
+        var readResult = _fileService.ReadListFromFile<ContactDto>();
         _contacts = readResult.Data ?? [];
     }
 
