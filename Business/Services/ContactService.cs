@@ -57,16 +57,10 @@ public class ContactService : IContactService
         }
         return Result<ContactDto>.Success(contactToRetrieve, SuccessMessages.ContactRetrieved);
     }
-    public Result<ContactDto> UpdateContact(string contactId, ContactRegistrationForm form)
+    public Result<ContactDto> UpdateContact(ContactDto existingContact, ContactRegistrationForm form)
     {
-        var existingContact = _contacts.FirstOrDefault(c => c.Id == contactId);
-        if (existingContact == null)
-        {
-            return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
-        }
-
         var sanitizedForm = InputSanitizer.Sanitize(form);
-        ContactFactory.Update(existingContact, sanitizedForm);
+        var updatedDto = ContactFactory.Update(existingContact, sanitizedForm);
 
         var saveResult = _fileService.SaveListToFile(_contacts);
         if (!saveResult.IsSuccess)
@@ -74,7 +68,7 @@ public class ContactService : IContactService
             return Result<ContactDto>.Failure(ErrorMessages.ContactNotUpdated);
         }
 
-        return Result<ContactDto>.Success(existingContact, SuccessMessages.ContactUpdated);
+        return Result<ContactDto>.Success(updatedDto, SuccessMessages.ContactUpdated);
     }
     public Result<ContactDto> DeleteContact(string contactId)
     {

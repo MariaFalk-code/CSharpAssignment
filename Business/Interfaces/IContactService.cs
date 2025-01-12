@@ -30,13 +30,13 @@ public interface IContactService
     /// <summary>
     /// Updates a contact in the list of contacts.
     /// </summary>
-    /// <param name="contactId">The GUID of the contact to update.</param>
+    /// <param name="existingContact">The Dto of the contact to update.</param>
     /// <param name="form">The contact registration form.</param>
     /// <returns>
     /// A <see cref="Result{T}"/> containing the updated <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message. 
     /// </returns>
-    Result<ContactDto> UpdateContact(string contactId, ContactRegistrationForm form);
+    Result<ContactDto> UpdateContact(ContactDto existingContact, ContactRegistrationForm form);
 
     /// <summary>
     /// Deletes a contact from the list of contacts.

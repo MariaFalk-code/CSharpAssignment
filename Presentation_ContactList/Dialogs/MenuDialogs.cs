@@ -1,5 +1,6 @@
 ﻿
 
+using Business.Dtos;
 using Business.Interfaces;
 using Business.Messages;
 using Business.Models;
@@ -108,6 +109,12 @@ public class MenuDialogs(IContactService contactService)
         var result = _contactService.CreateAndAddContact(contactRegForm);
 
         Console.Clear();
+        if (!result.IsSuccess || result.Data == null)
+        {
+            Console.WriteLine(ErrorMessages.ContactNotAdded);
+            WaitForUserInput();
+            return;
+        }
         Console.WriteLine(result.Message);
         Console.WriteLine();
         Console.WriteLine("---New contact:---");
@@ -121,25 +128,20 @@ public class MenuDialogs(IContactService contactService)
     /// </summary>
     private void ViewContact()
     {
-        Console.Clear();
-        Console.WriteLine("Please enter the ID of the contact you want to view: ");
-        var contactId = Console.ReadLine()!.Trim();
-        if (string.IsNullOrWhiteSpace(contactId))
-        {
-            Console.WriteLine(ErrorMessages.InvalidId);
-            WaitForUserInput();
-            return;
-        }
-        var result = _contactService.ShowContact(contactId);
+        var result = GetContactById("view");
+
+        if (!result.IsSuccess || result.Data == null) return;
+
+        var viewResult = _contactService.ShowContact(result.Data.Id);
+
         Console.Clear();
 
-        if (!result.IsSuccess || result.Data == null)
+        if (!viewResult.IsSuccess || viewResult.Data == null)
         {
             Console.WriteLine(ErrorMessages.ContactNotFound);
             WaitForUserInput();
             return;
         }
-
         Console.WriteLine(result.Message);
         Console.WriteLine();
         Console.WriteLine("---Contact Details---");
@@ -153,25 +155,11 @@ public class MenuDialogs(IContactService contactService)
     /// </summary>
     private void UpdateContact()
     {
-        Console.Clear();
-        Console.WriteLine("Please enter the ID of the contact you want to update: ");
+        var result = GetContactById("update");
 
-        var contactId = Console.ReadLine()!.Trim();
+        if (!result.IsSuccess || result.Data == null) return;
 
-        if (string.IsNullOrWhiteSpace(contactId))
-        {
-            Console.WriteLine(ErrorMessages.InvalidId);
-            WaitForUserInput();
-            return;
-        }
-
-        var contactDto = _contactService.ShowContact(contactId);
-        if (!contactDto.IsSuccess || contactDto.Data == null)
-        {
-            Console.WriteLine(ErrorMessages.ContactNotFound);
-            WaitForUserInput();
-            return;
-        }
+        var existingDto = result.Data;
 
         Console.Clear();
         var contactRegForm = new ContactRegistrationForm();
@@ -186,17 +174,17 @@ public class MenuDialogs(IContactService contactService)
         contactRegForm.PostalCode = PromptAndValidate.Prompt("Postal Code: ", contactRegForm, nameof(contactRegForm.PostalCode));
         contactRegForm.City = PromptAndValidate.Prompt("City: ", contactRegForm, nameof(contactRegForm.City));
 
-        var result = _contactService.UpdateContact(contactId, contactRegForm);
+        var updatedResult = _contactService.UpdateContact(existingDto, contactRegForm);
         Console.Clear();
 
-        if (!result.IsSuccess)
+        if (!updatedResult.IsSuccess)
         {
             Console.WriteLine(result.Message);
             WaitForUserInput();
             return;
         }
         
-        Console.WriteLine(result.Message);
+        Console.WriteLine(updatedResult.Message);
         Console.WriteLine();
         Console.WriteLine("---Updated contact:---");
         Console.WriteLine();
@@ -209,35 +197,20 @@ public class MenuDialogs(IContactService contactService)
     /// </summary>
     private void DeleteContact()
     {
+        var result = GetContactById("delete");
+
+        if (!result.IsSuccess || result.Data == null) return;
+
+        var deleteResult = _contactService.DeleteContact(result.Data.Id);
+
         Console.Clear();
-        Console.WriteLine("Please enter the ID of the contact you want to delete: ");
-
-        var contactId = Console.ReadLine()!.Trim();
-
-        if (string.IsNullOrWhiteSpace(contactId))
+        if (!deleteResult.IsSuccess)
         {
-            Console.WriteLine(ErrorMessages.InvalidId);
+            Console.WriteLine(ErrorMessages.ContactNotDeleted);
             WaitForUserInput();
             return;
         }
-
-        var contactDto = _contactService.ShowContact(contactId);
-        if (!contactDto.IsSuccess || contactDto.Data == null)
-        {
-            Console.WriteLine(ErrorMessages.ContactNotFound);
-            WaitForUserInput();
-            return;
-        }
-        var result = _contactService.DeleteContact(contactId);
-        Console.Clear();
-
-        if (!result.IsSuccess)
-        {
-            Console.WriteLine(result.Message);
-            WaitForUserInput();
-            return;
-        }
-        Console.WriteLine(result.Message);
+        Console.WriteLine(deleteResult.Message);
         Console.WriteLine();
         Console.WriteLine("---Deleted contact:---");
         Console.WriteLine();
@@ -272,11 +245,43 @@ public class MenuDialogs(IContactService contactService)
         }
         WaitForUserInput();
     }
-
+    /// <summary>
+    /// Helper method, waits for user input before continuing.
+    /// </summary>
+    /// <param name="message">A message to the user.</param>
     private void WaitForUserInput(string message = "Press any key to return to the main menu.")
     {
         Console.WriteLine();
         Console.WriteLine(message);
         Console.ReadKey();
+    }
+    /// <summary>
+    /// Helper method, suggested by GhatGpt4o for cleaning up the code. Slightly modified by me. Gets a contact by ID and returns the result.
+    /// </summary>
+    /// <param name="promptMessage"></param>
+    /// <returns></returns>
+    private Result<ContactDto> GetContactById(string promptAction)
+    {
+        Console.Clear();
+        Console.WriteLine(($"Please enter the ID of the contact you want to {promptAction}: "));
+        var contactId = Console.ReadLine()!.Trim();
+
+        if (string.IsNullOrWhiteSpace(contactId))
+        {
+            Console.WriteLine(ErrorMessages.InvalidId);
+            Console.ReadKey();
+            return Result<ContactDto>.Failure(ErrorMessages.InvalidId);
+        }
+
+        var result = _contactService.ShowContact(contactId);
+
+        if (!result.IsSuccess || result.Data == null)
+        {
+            Console.WriteLine(ErrorMessages.ContactNotFound);
+            WaitForUserInput();
+            return Result<ContactDto>.Failure(ErrorMessages.ContactNotFound);
+        }
+
+        return result;
     }
 }
