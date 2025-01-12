@@ -1,5 +1,7 @@
 ﻿
 
+using Business.Dtos;
+using Business.Messages;
 using Business.Models;
 using System.Text.RegularExpressions;
 
@@ -14,6 +16,10 @@ public static class InputSanitizer
     /// <param name="form">The form to sanitize</param>
     public static ContactRegistrationForm Sanitize(ContactRegistrationForm form)
     {
+        if (form == null)
+        {
+            throw new ArgumentNullException(nameof(form), ErrorMessages.NullFormException);
+        }
         form.FirstName = ToTitleCase(RemoveExtraSpaces(form.FirstName));
         form.LastName = ToTitleCase(RemoveExtraSpaces(form.LastName));
         form.Email = RemoveExtraSpaces(form.Email);
