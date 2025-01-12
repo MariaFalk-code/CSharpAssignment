@@ -2,7 +2,9 @@
 
 namespace Business.Utilities;
 
-//Generates a new GUID for the Id property of the Contact class.
+/// <summary>
+/// A utility class for generating GUIDs.
+/// </summary>
 public static class GuidGenerator
 {
     public static string GenerateGuid()

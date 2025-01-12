@@ -1,5 +1,8 @@
 ﻿namespace Business.Messages
 {
+    /// <summary>
+    /// Successmessages concerning the Contact List application.
+    /// </summary>
     public static class SuccessMessages
     {
 

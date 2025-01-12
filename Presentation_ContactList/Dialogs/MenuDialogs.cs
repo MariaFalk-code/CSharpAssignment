@@ -1,6 +1,5 @@
 ﻿
 
-
 using Business.Interfaces;
 using Business.Messages;
 using Business.Models;
@@ -11,7 +10,9 @@ namespace Presentation_ContactList_ConsoleApp.Dialogs;
 public class MenuDialogs(IContactService contactService)
 {
     private readonly IContactService _contactService = contactService;
-
+    /// <summary>
+    /// Runs the main menu of the application.
+    /// </summary>
     public void RunMainMenu()
     {
         var validOptions = new HashSet<string> { "1", "2", "3", "4", "5", "6" };
@@ -34,6 +35,10 @@ public class MenuDialogs(IContactService contactService)
             }
         }
     }
+    /// <summary>
+    /// Displays the main menu of the application.
+    /// </summary>
+    /// <returns></returns>
     private static string ShowMainMenu()
     {
         Console.WriteLine("---Welcome to the Contact List App!---");
@@ -52,6 +57,10 @@ public class MenuDialogs(IContactService contactService)
         return option;
     }
 
+    /// <summary>
+    /// Handles the menu option selected by the user.
+    /// </summary>
+    /// <param name="option"></param>
     private void HandleMenuOption(string option)
     {
         switch (option)
@@ -79,6 +88,10 @@ public class MenuDialogs(IContactService contactService)
                 break;
         }
     }
+
+    /// <summary>
+    /// Adds a contact to the contact list, based on sanitized and validated user input.
+    /// </summary>
     private void AddContact()
     {
         Console.Clear();
@@ -106,6 +119,10 @@ public class MenuDialogs(IContactService contactService)
         Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
+
+    /// <summary>
+    /// Displays the details of a contact based on the ID entered by the user.
+    /// </summary>
     private void ViewContact()
     {
         Console.Clear();
@@ -140,6 +157,9 @@ public class MenuDialogs(IContactService contactService)
         Console.ReadKey();
     }
 
+    /// <summary>
+    /// Updates the details of a contact fetched by the ID entered by the user.
+    /// </summary>
     private void UpdateContact()
     {
         Console.Clear();
@@ -199,6 +219,10 @@ public class MenuDialogs(IContactService contactService)
         Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
+
+    /// <summary>
+    /// Deletes a contact from the contact list based on the ID entered by the user.
+    /// </summary>
     private void DeleteContact()
     {
         Console.Clear();

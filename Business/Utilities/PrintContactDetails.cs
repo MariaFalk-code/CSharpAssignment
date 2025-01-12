@@ -6,6 +6,10 @@ namespace Business.Utilities;
 
 public class PrintContactDetails
 {
+    /// <summary>
+    /// Prints the details of a contact.
+    /// </summary>
+    /// <param name="contact"></param>
     public static void Print(ContactDto contact)
     {
         Console.WriteLine($"ID: {contact.Id}");
