@@ -17,9 +17,6 @@ public class ContactFactory
     /// </summary>
     /// <param name="form">The form containing contact information to populate the DTO.</param>
     /// <returns>A new <see cref="ContactDto"/> populated with the contact details from the form.</returns>
-    /// /// <exception cref="ArgumentNullException">
-    /// Thrown if the provided <see cref="ContactRegistrationForm"/> is null.
-    /// </exception>
     public static ContactDto Create(ContactRegistrationForm form)
     {
         if (form == null)
@@ -43,10 +40,9 @@ public class ContactFactory
     /// <summary>
     /// Updates an existing <see cref="ContactDto"/> with values from a <see cref="ContactRegistrationForm"/>.
     /// </summary>
-    /// <param name="dto">The existing contact DTO to update.</param>
+    /// <param name="dto">The contact DTO to update.</param>
     /// <param name="form">The form containing the updated values.</param>
     /// <returns>The updated <see cref="ContactDto"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if the DTO or form is null.</exception>
     public static ContactDto Update(ContactDto dto, ContactRegistrationForm form)
     {
         if (dto == null)

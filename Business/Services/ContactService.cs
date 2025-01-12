@@ -22,8 +22,7 @@ public class ContactService : IContactService
     {
         _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
 
-        var readResult = _fileService.ReadListFromFile<ContactDto>();
-        _contacts = readResult.Data ?? [];
+        _contacts = _fileService.ReadListFromFile<ContactDto>().Data ?? [];
     }
 
     public Result<ContactDto> CreateAndAddContact(ContactRegistrationForm form)
@@ -48,8 +47,14 @@ public class ContactService : IContactService
 
         return Result<ContactDto>.Success(contact, SuccessMessages.ContactAdded);
     }
-    public Result<ContactDto> ShowContact(string contactId)
+    public Result<ContactDto> GetContact(string contactId)
     {
+        var readResult = _fileService.ReadListFromFile<ContactDto>();
+        if (readResult.IsSuccess && readResult.Data != null)
+        {
+            _contacts = readResult.Data;
+        }
+
         var contactToRetrieve = _contacts.FirstOrDefault(c => c.Id == contactId);
         if (contactToRetrieve == null)
         {
@@ -72,6 +77,11 @@ public class ContactService : IContactService
     }
     public Result<ContactDto> DeleteContact(string contactId)
     {
+        var readResult = _fileService.ReadListFromFile<ContactDto>();
+        if (readResult.IsSuccess && readResult.Data != null)
+        {
+            _contacts = readResult.Data;
+        }
 
         var contactToDelete = _contacts.FirstOrDefault(c => c.Id == contactId);
         if (contactToDelete == null)
@@ -91,11 +101,13 @@ public class ContactService : IContactService
     }
     public Result<IEnumerable<ContactDto>> ShowAllContacts()
     {
-        if (_contacts.Count == 0)
+        var readResult = _fileService.ReadListFromFile<ContactDto>();
+        if (!readResult.IsSuccess || readResult.Data == null || !readResult.Data.Any())
         {
             return Result<IEnumerable<ContactDto>>.Failure(ErrorMessages.ContactsEmpty);
         }
 
+        _contacts = readResult.Data;
         return Result<IEnumerable<ContactDto>>.Success(_contacts, SuccessMessages.ContactsRetrieved);
     }
 }

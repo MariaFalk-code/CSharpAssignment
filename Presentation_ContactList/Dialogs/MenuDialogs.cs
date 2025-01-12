@@ -130,18 +130,15 @@ public class MenuDialogs(IContactService contactService)
     {
         var result = GetContactById("view");
 
-        if (!result.IsSuccess || result.Data == null) return;
-
-        var viewResult = _contactService.ShowContact(result.Data.Id);
-
         Console.Clear();
 
-        if (!viewResult.IsSuccess || viewResult.Data == null)
+        if (!result.IsSuccess || result.Data == null)
         {
             Console.WriteLine(ErrorMessages.ContactNotFound);
             WaitForUserInput();
             return;
         }
+
         Console.WriteLine(result.Message);
         Console.WriteLine();
         Console.WriteLine("---Contact Details---");
@@ -223,16 +220,17 @@ public class MenuDialogs(IContactService contactService)
     /// </summary>
     private void ViewAllContacts()
     {
-        Console.Clear();
         var result = _contactService.ShowAllContacts();
 
         if (!result.IsSuccess || result.Data == null || !result.Data.Any())
         {
+            Console.Clear();
             Console.WriteLine(result.Message ?? ErrorMessages.ContactsEmpty);
             WaitForUserInput();
             return;
         }
 
+        Console.Clear();
         Console.WriteLine(result.Message);
         Console.WriteLine();
         Console.WriteLine("---All contacts:---");
@@ -273,7 +271,7 @@ public class MenuDialogs(IContactService contactService)
             return Result<ContactDto>.Failure(ErrorMessages.InvalidId);
         }
 
-        var result = _contactService.ShowContact(contactId);
+        var result = _contactService.GetContact(contactId);
 
         if (!result.IsSuccess || result.Data == null)
         {

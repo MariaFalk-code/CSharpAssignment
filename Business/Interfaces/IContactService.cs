@@ -25,12 +25,12 @@ public interface IContactService
     /// A <see cref="Result{T}"/> containing the requested <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message.
     /// </returns>
-    Result<ContactDto> ShowContact(string contactId);
+    Result<ContactDto> GetContact(string contactId);
 
     /// <summary>
     /// Updates a contact in the list of contacts.
     /// </summary>
-    /// <param name="existingContact">The Dto of the contact to update.</param>
+    /// <param name="existingContact">The DTO of the contact to update.</param>
     /// <param name="form">The contact registration form.</param>
     /// <returns>
     /// A <see cref="Result{T}"/> containing the updated <see cref="ContactDto"/> if successful.
@@ -41,7 +41,7 @@ public interface IContactService
     /// <summary>
     /// Deletes a contact from the list of contacts.
     /// </summary>
-    /// <param name="contactId">The GUID of the contact to delete</param>
+    /// <param name="contactId">The GUID, as a string, of the contact to delete</param>
     /// <returns>
     /// A <see cref="Result{T}"/> containing the deleted <see cref="ContactDto"/> if successful.
     /// If unsuccessful, the result contains an error message.

@@ -9,7 +9,7 @@ public class PrintContactDetails
     /// <summary>
     /// Prints the details of a contact.
     /// </summary>
-    /// <param name="contact"></param>
+    /// <param name="contact">The contact being printed.</param>
     public static void Print(ContactDto contact)
     {
         Console.WriteLine($"ID: {contact.Id}");
