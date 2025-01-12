@@ -29,9 +29,7 @@ public class MenuDialogs(IContactService contactService)
             else
             {
                 Console.WriteLine(ErrorMessages.InvalidOption);
-                Console.WriteLine();
-                Console.WriteLine("Press any key to return to the main menu.");
-                Console.ReadKey();
+                WaitForUserInput();
             }
         }
     }
@@ -115,9 +113,7 @@ public class MenuDialogs(IContactService contactService)
         Console.WriteLine("---New contact:---");
         Console.WriteLine();
         PrintContactDetails.Print(result.Data!);
-        Console.WriteLine();
-        Console.WriteLine("Press any key to return to the main menu.");
-        Console.ReadKey();
+        WaitForUserInput();
     }
 
     /// <summary>
@@ -131,9 +127,7 @@ public class MenuDialogs(IContactService contactService)
         if (string.IsNullOrWhiteSpace(contactId))
         {
             Console.WriteLine(ErrorMessages.InvalidId);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to return to the main menu.");
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
         var result = _contactService.ShowContact(contactId);
@@ -142,9 +136,7 @@ public class MenuDialogs(IContactService contactService)
         if (!result.IsSuccess || result.Data == null)
         {
             Console.WriteLine(ErrorMessages.ContactNotFound);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to return to the main menu.");
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
 
@@ -153,8 +145,7 @@ public class MenuDialogs(IContactService contactService)
         Console.WriteLine("---Contact Details---");
         Console.WriteLine();
         PrintContactDetails.Print(result.Data!);
-        Console.WriteLine("Press any key to return to the main menu.");
-        Console.ReadKey();
+        WaitForUserInput();
     }
 
     /// <summary>
@@ -170,9 +161,7 @@ public class MenuDialogs(IContactService contactService)
         if (string.IsNullOrWhiteSpace(contactId))
         {
             Console.WriteLine(ErrorMessages.InvalidId);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to return to the main menu.");
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
 
@@ -180,9 +169,7 @@ public class MenuDialogs(IContactService contactService)
         if (!contactDto.IsSuccess || contactDto.Data == null)
         {
             Console.WriteLine(ErrorMessages.ContactNotFound);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to return to the main menu.");
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
 
@@ -205,9 +192,7 @@ public class MenuDialogs(IContactService contactService)
         if (!result.IsSuccess)
         {
             Console.WriteLine(result.Message);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to return to the main menu.");
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
         
@@ -216,8 +201,7 @@ public class MenuDialogs(IContactService contactService)
         Console.WriteLine("---Updated contact:---");
         Console.WriteLine();
         PrintContactDetails.Print(result.Data!);
-        Console.WriteLine("Press any key to return to the main menu.");
-        Console.ReadKey();
+        WaitForUserInput();
     }
 
     /// <summary>
@@ -233,7 +217,7 @@ public class MenuDialogs(IContactService contactService)
         if (string.IsNullOrWhiteSpace(contactId))
         {
             Console.WriteLine(ErrorMessages.InvalidId);
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
 
@@ -241,7 +225,7 @@ public class MenuDialogs(IContactService contactService)
         if (!contactDto.IsSuccess || contactDto.Data == null)
         {
             Console.WriteLine(ErrorMessages.ContactNotFound);
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
         var result = _contactService.DeleteContact(contactId);
@@ -250,9 +234,7 @@ public class MenuDialogs(IContactService contactService)
         if (!result.IsSuccess)
         {
             Console.WriteLine(result.Message);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to return to the main menu.");
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
         Console.WriteLine(result.Message);
@@ -260,8 +242,7 @@ public class MenuDialogs(IContactService contactService)
         Console.WriteLine("---Deleted contact:---");
         Console.WriteLine();
         PrintContactDetails.Print(result.Data!);
-        Console.WriteLine("Press any key to return to the main menu.");
-        Console.ReadKey();
+        WaitForUserInput();
     }
     /// <summary>
     /// Displays all contacts in the contact list. ChatGPTo generated this method as I was falling asleep. It calls the ShowAllContacts method,
@@ -275,9 +256,7 @@ public class MenuDialogs(IContactService contactService)
         if (!result.IsSuccess || result.Data == null || !result.Data.Any())
         {
             Console.WriteLine(result.Message ?? ErrorMessages.ContactsEmpty);
-            Console.WriteLine();
-            Console.WriteLine("Press any key to return to the main menu.");
-            Console.ReadKey();
+            WaitForUserInput();
             return;
         }
 
@@ -291,7 +270,13 @@ public class MenuDialogs(IContactService contactService)
                 PrintContactDetails.Print(contact);
             }
         }
-        Console.WriteLine("Press any key to return to the main menu.");
+        WaitForUserInput();
+    }
+
+    private void WaitForUserInput(string message = "Press any key to return to the main menu.")
+    {
+        Console.WriteLine();
+        Console.WriteLine(message);
         Console.ReadKey();
     }
 }
