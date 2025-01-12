@@ -229,7 +229,7 @@ public class MenuDialogs(IContactService contactService)
             WaitForUserInput();
             return;
         }
-
+     
         Console.Clear();
         Console.WriteLine(result.Message);
         Console.WriteLine();
@@ -242,6 +242,9 @@ public class MenuDialogs(IContactService contactService)
             }
         }
         WaitForUserInput();
+        ///Below is an ANSI Sequence that clears the entire console including the scrollback buffer.
+        Console.Clear();
+        Console.WriteLine("\x1b[3J");
     }
     /// <summary>
     /// Helper method, waits for user input before continuing.
